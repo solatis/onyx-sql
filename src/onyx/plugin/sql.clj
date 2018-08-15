@@ -81,7 +81,7 @@
                          [:<= id high]]}]
     (jdbc/query pool (sql/format sql-map))))
 
-(defrecord SqlPartitioner [pool table id columns event rst completed? offset]
+(defrecord SqlPartitioner [pool table id columns event rst completed?]
   p/Plugin
   (start [this event]
     (vreset! rst [])
@@ -130,9 +130,8 @@
                           :id id
                           :columns (or (:sql/columns task-map) [:*])
                           :event event
-                          :rst (volatile! nil)
-                          :completed? (volatile! false)
-                          :offset (volatile! nil)})))
+                          :rst (volatile! [])
+                          :completed? (volatile! false)})))
 
 (defn- jdbc-insert-multi! [table conn rows]
   (jdbc/insert-multi! conn table rows))
