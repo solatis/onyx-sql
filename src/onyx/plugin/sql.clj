@@ -84,6 +84,7 @@
 (defrecord SqlPartitioner [pool table id columns event rst completed? offset]
   p/Plugin
   (start [this event]
+    (vreset! rst [])
     this)
 
   (stop [this event]
